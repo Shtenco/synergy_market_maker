@@ -2,6 +2,8 @@
 
 > **Inventory-aware quoting and hedge sizing with explicit risk-control boundaries**
 
+Version: `2.0.0`
+
 **Enterprise v2.0.0** · FastAPI/OpenAPI · Docker/Compose · RBAC/JWT · PostgreSQL/ClickHouse audit
 
 **Designed for:** Market makers, exchanges, OTC desks and liquidity providers  
