@@ -1,0 +1,3 @@
+# Security policy — SYNERGY Market Maker
+
+No production secrets in Git. Prefer customer OIDC/mTLS/JWKS, KMS secrets and least-privilege venue credentials. Quoting output is not autonomous live authority. Inventory/risk limits must be customer-approved and execution must remain separately gated. PostgreSQL is authoritative audit; ClickHouse is analytical mirror. No security/regulatory certification is claimed.
