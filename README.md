@@ -59,3 +59,70 @@ flowchart LR
 `GREEN` означает только воспроизводимо подтверждённый тезис. Гипотеза, benchmark без корректного протокола, архитектурная диаграмма или красивый экономический цикл сами по себе GREEN не дают.
 
 <!-- SYNERGY-FEDERATION-PASSPORT:END -->
+---
+
+# 💹 Глубокая техническая спецификация Market Maker
+
+## 🎯 Проблема
+
+Номинальный spread не является прибылью: inventory drift, adverse selection, queue position, hedge cost и venue risk могут полностью уничтожить edge.
+
+## 🏗️ Pipeline
+
+```mermaid
+flowchart LR
+    N0[Market state] --> N1[Inventory state] --> N2[Fair value] --> N3[Quote generation] --> N4[Risk skew] --> N5[Hedge sizing] --> N6[Execution evidence]
+```
+
+## 📥 Входы
+
+- best bid/ask + depth;
+- inventory;
+- volatility;
+- fair value;
+- fees/rebates;
+- hedge venue state;
+
+## 📤 Выходы
+
+- bid/ask quote plan;
+- inventory skew;
+- hedge intent;
+- quote cancel/replace reason;
+- audit artifact;
+
+## 🛡️ Непереговорные инварианты
+
+```text
+inventory limits override spread opportunity
+stale market data cancels quotes
+quote PnL excludes unfilled theoretical spread
+hedge cost included
+live dispatch gated separately
+```
+
+## 🧪 Как ловить ложный GREEN
+
+- health/API throughput не использовать как доказательство market edge;
+- обязательны timestamp/state-version checks;
+- adversarial/negative fixtures должны проверять отказ;
+- сохранять полный request → decision → execution/evidence trace;
+- live claims отделять от local smoke и simulation;
+- cost/latency/failure assumptions должны быть явными.
+
+## 🔗 Контракт с соседями
+
+- [`synergy_market_graph`](https://github.com/Shtenco/synergy_market_graph)
+- [`synergy_riskguard`](https://github.com/Shtenco/synergy_riskguard)
+- [`synergy_trademux`](https://github.com/Shtenco/synergy_trademux)
+- [`synergy_financial_os`](https://github.com/Shtenco/synergy_financial_os)
+
+## 🚀 Следующий доказательный рубеж
+
+1. frozen acceptance fixtures;
+2. negative/adversarial suite;
+3. typed cross-repo schema;
+4. end-to-end trace ID;
+5. rollback/recovery evidence;
+6. documented failure-mode table;
+7. reproducible evidence bundle.
