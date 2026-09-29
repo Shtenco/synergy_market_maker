@@ -295,6 +295,99 @@ synergy_market_maker
 - positive market-making P&L;
 - that quote output authorizes trading.
 
+## 20. 🔍 Quote-behavior properties to prove
+
+A robust quote engine should satisfy properties, not only example tests.
+
+### Inventory monotonicity
+
+Holding other inputs fixed, increasing positive inventory should move reservation price in the direction that discourages further accumulation. The sign and magnitude should be checked over a grid of inventory values.
+
+### Volatility widening
+
+For the current formula, increasing (sigma) should not make the modeled risk component of spread narrower. Property tests should sweep realistic sigma values and record bid/ask.
+
+### Minimum spread floor
+
+For calm markets:
+
+[
+halfSpread ge mid 	imes rac{minHalfSpreadBps}{10000}
+]
+
+must always hold.
+
+### Quote sanity
+
+When status=`QUOTE`:
+
+```text
+bid <= reservation <= ask
+half_spread >= 0
+ask - bid = 2 * half_spread
+```
+
+within floating-point tolerance.
+
+## 21. 📋 Required quote evidence artifact
+
+For every production-intent quote preserve:
+
+```text
+observation_id
+symbol
+market timestamp
+mid source
+inventory snapshot id
+sigma method + lookback
+MMConfig version
+bid / ask / reservation
+model half-spread
+venue fee assumptions
+software commit
+expiry / max age
+authorization=false
+```
+
+This makes it possible to determine whether an apparently attractive quote was built from stale market state.
+
+## 22. 📉 From quote model to P&L evidence
+
+A real market-making experiment must reconcile:
+
+[
+PnL =
+SpreadCapture
+-
+AdverseSelection
+-
+Fees
+-
+HedgeCost
+-
+InventoryMark
+]
+
+and separately report realized vs unrealized components.
+
+The existing core computes quotes; it does **not** compute that reconciliation. Therefore future README claims about profitability must link to a separate trade/fill ledger rather than infer P&L from half-spread.
+
+## 23. ✅ Promotion gate
+
+To move from CANDIDATE quote engine to E2E_TESTED market-making component:
+
+- observed market timestamp provenance;
+- quote expiry;
+- fill simulator;
+- exchange/broker fee parity;
+- partial fills;
+- hedge execution;
+- inventory limits under concurrency;
+- realized P&L ledger;
+- M5 federation evidence.
+
+No performance adjective should replace these artifacts.
+
 ---
 
 [🧭 SYNERGY SYSTEM](https://github.com/Shtenco/synergy_system) · [📚 Atlas](https://github.com/Shtenco/synergy_system/blob/main/docs/SYNERGY_REPOSITORY_ATLAS.md)
