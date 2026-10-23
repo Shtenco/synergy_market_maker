@@ -1,9 +1,9 @@
-# 💧 SYNERGY Market Maker — verified technical dossier
+#  SYNERGY Market Maker — verified technical dossier
 
-> **Статус:** 🟡 CANDIDATE — quote engine, federation contract, enterprise API and tests exist in `main`.
+> **Статус:**  CANDIDATE — quote engine, federation contract, enterprise API and tests exist in `main`.
 > **Проверено по фактическому source/tests:** 29.09.2026.
 
-## 1. 🎯 Задача
+## 1.  Задача
 
 `synergy_market_maker` строит bounded liquidity quote вокруг mid price с учётом inventory, volatility и configurable spread/risk parameters.
 
@@ -15,7 +15,7 @@ quote availability != fill
 model spread != realized spread P&L
 ```
 
-## 2. 📦 Фактический состав
+## 2.  Фактический состав
 
 В repository присутствуют:
 
@@ -27,7 +27,7 @@ model spread != realized spread P&L
 - Dockerfile, Makefile, pyproject;
 - deploy/loadtests/demo/docs/examples.
 
-## 3. 🧠 Core model
+## 3.  Core model
 
 `MMConfig`:
 
@@ -49,7 +49,7 @@ half_spread
 status
 ```
 
-## 4. 📐 Quote math
+## 4.  Quote math
 
 Input validation:
 
@@ -88,7 +88,7 @@ Half spread — максимум между minimum bps floor и risk-model term
 
 Это конкретная implemented heuristic; README не называет её production-calibrated market-making model.
 
-## 5. ↔️ Hedge helper
+## 5.  Hedge helper
 
 `hedge_notional(inventory,target,hedge_ratio)`:
 
@@ -98,7 +98,7 @@ H=-(inventory-target)cdot hedgeRatio
 
 Это desired notional, а не выполненный hedge.
 
-## 6. 🏗️ Архитектура
+## 6.  Архитектура
 
 ```mermaid
 flowchart LR
@@ -113,7 +113,7 @@ flowchart LR
     C --> MIDAS[synergy_midas_ai]
 ```
 
-## 7. 🔗 Federation contract
+## 7.  Federation contract
 
 ```text
 CONTRACT_ID = synergy.trading.liquidity-quote/v1
@@ -136,7 +136,7 @@ authorization = false
 
 То есть quote evidence сам по себе не разрешает выставить orders.
 
-## 8. 📥 Inputs / 📤 Outputs
+## 8.  Inputs /  Outputs
 
 Inputs:
 
@@ -158,7 +158,7 @@ Outputs:
 
 Enterprise API дополнительно возвращает hedge notional/request id.
 
-## 9. 🛡️ Invariants
+## 9.  Invariants
 
 ```text
 invalid mid/sigma -> reject
@@ -169,7 +169,7 @@ liquidity quote != trade authorization
 source observation requires provenance downstream
 ```
 
-## 10. 🧪 Реальные tests
+## 10.  Реальные tests
 
 `test_enterprise_product.py` вызывает:
 
@@ -189,7 +189,7 @@ POST /enterprise/v1/market-maker/quote
 
 Также repository содержит tests для core, enterprise adapters/foundation/service/deployment, release metadata и SYNERGY contracts.
 
-## 11. ⚠️ Modeling gaps
+## 11.  Modeling gaps
 
 Текущий core напрямую не моделирует:
 
@@ -205,7 +205,7 @@ POST /enterprise/v1/market-maker/quote
 
 Поэтому computed spread нельзя считать realized market-making edge.
 
-## 12. 🧪 Следующие evidence tests
+## 12.  Следующие evidence tests
 
 - monotonic inventory skew;
 - volatility widening;
@@ -219,7 +219,7 @@ POST /enterprise/v1/market-maker/quote
 - multi-venue hedge latency;
 - OOS inventory/P&L replay.
 
-## 13. 🔐 Enterprise boundary
+## 13.  Enterprise boundary
 
 Enterprise tests демонстрируют role authorization и audit correlation. Production-ready claim потребует дополнительно:
 
@@ -230,7 +230,7 @@ Enterprise tests демонстрируют role authorization и audit correlat
 - rate limits;
 - execution policy separation.
 
-## 14. 🛠️ Воспроизводимость
+## 14.  Воспроизводимость
 
 ```bash
 git clone https://github.com/Shtenco/synergy_market_maker.git
@@ -241,7 +241,7 @@ pytest -q
 
 Observed CI/E2E должен фиксироваться отдельно.
 
-## 15. 🗺️ Карта repository
+## 15.  Карта repository
 
 | Path | Role |
 |---|---|
@@ -254,7 +254,7 @@ Observed CI/E2E должен фиксироваться отдельно.
 | `deploy/` | deployment assets |
 | `loadtests/` | load tests |
 
-## 16. 🔗 Место в SYNERGY
+## 16.  Место в SYNERGY
 
 ```text
 synergy_market_maker
@@ -263,20 +263,20 @@ synergy_market_maker
 → separate execution/risk authority
 ```
 
-## 17. 📊 Evidence maturity
+## 17.  Evidence maturity
 
 | Layer | Status |
 |---|---|
-| quote formula | ✅ |
-| inventory limit | ✅ |
-| federation payload | ✅ |
-| enterprise tests | ✅ source |
-| fill model | ❌ |
-| realized P&L validation | ❌ |
-| historical OOS | ❌ |
-| observed cross-repo E2E | ❌ |
+| quote formula |  |
+| inventory limit |  |
+| federation payload |  |
+| enterprise tests |  source |
+| fill model |  |
+| realized P&L validation |  |
+| historical OOS |  |
+| observed cross-repo E2E |  |
 
-## 18. 🚀 Roadmap
+## 18.  Roadmap
 
 1. quote timestamp/provenance;
 2. order-book depth;
@@ -287,7 +287,7 @@ synergy_market_maker
 7. hedge execution evidence;
 8. M4/M5 observed federation run.
 
-## 19. 🛑 Что проект НЕ утверждает
+## 19.  Что проект НЕ утверждает
 
 - guaranteed spread capture;
 - production liquidity;
@@ -295,7 +295,7 @@ synergy_market_maker
 - positive market-making P&L;
 - that quote output authorizes trading.
 
-## 20. 🔍 Quote-behavior properties to prove
+## 20.  Quote-behavior properties to prove
 
 A robust quote engine should satisfy properties, not only example tests.
 
@@ -329,7 +329,7 @@ ask - bid = 2 * half_spread
 
 within floating-point tolerance.
 
-## 21. 📋 Required quote evidence artifact
+## 21.  Required quote evidence artifact
 
 For every production-intent quote preserve:
 
@@ -351,7 +351,7 @@ authorization=false
 
 This makes it possible to determine whether an apparently attractive quote was built from stale market state.
 
-## 22. 📉 From quote model to P&L evidence
+## 22.  From quote model to P&L evidence
 
 A real market-making experiment must reconcile:
 
@@ -372,7 +372,7 @@ and separately report realized vs unrealized components.
 
 The existing core computes quotes; it does **not** compute that reconciliation. Therefore future README claims about profitability must link to a separate trade/fill ledger rather than infer P&L from half-spread.
 
-## 23. ✅ Promotion gate
+## 23.  Promotion gate
 
 To move from CANDIDATE quote engine to E2E_TESTED market-making component:
 
@@ -390,4 +390,4 @@ No performance adjective should replace these artifacts.
 
 ---
 
-[🧭 SYNERGY SYSTEM](https://github.com/Shtenco/synergy_system) · [📚 Atlas](https://github.com/Shtenco/synergy_system/blob/main/docs/SYNERGY_REPOSITORY_ATLAS.md)
+[ SYNERGY SYSTEM](https://github.com/Shtenco/synergy_system) · [ Atlas](https://github.com/Shtenco/synergy_system/blob/main/docs/SYNERGY_REPOSITORY_ATLAS.md)
