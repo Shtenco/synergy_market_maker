@@ -1,3 +1,9 @@
+<!-- SCIENTIFIC-V4-2026:START -->
+<img src="assets/readme/scientific-architecture-v4.svg" width="100%" alt="MARKET MAKER / INVENTORY-RESPONSIVE QUOTING"/>
+
+[Научное досье V4](docs/SCIENTIFIC_DOSSIER_V4_2026.md) — оригинальная модель, экспериментальная проверка, применение. Прежний README сохранён полностью.
+<!-- SCIENTIFIC-V4-2026:END -->
+
 #  SYNERGY Market Maker — verified technical dossier
 
 > **Статус:**  CANDIDATE — quote engine, federation contract, enterprise API and tests exist in `main`.
